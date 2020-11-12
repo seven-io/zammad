@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+    tags: 'v*'
+    paths:
+      - '**.rb'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create SZPM file
+        id: create_szpm
+        env:
+          REF: ${{ github.ref }}
+          COMMITS: ${{ github.event.commits }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          today="$(date +'%Y-%d-%m' -u) 00:00:00 UTC"
+          base_url=https://github.com/$REPOSITORY/releases
+          file_name=sms77-sms.szpm && echo "::set-output name=file_name::${file_name}"
+          version=${REF##*/} && [[ $version != [0-9]* ]] && version="${version:1}"
+
+          log=''
+          for commit in $(echo "$COMMITS" | jq -r '.[] | @base64'); do
+            msg=$(echo "$commit" | base64 --decode | jq -r ".message")
+            log="${log}$(awk '!/[[:punct:]]$/ && NF{$NF=$NF"."}1' <<<"$msg")"
+          done
+          changeLog=$(printf '[{"version": "%s", "date": "%s", "log": "%s" } ]' "$version" "$today" "$log")
+
+          szpm=$(curl "$base_url/latest" -s -L -I -o /dev/null -w '%{url_effective}')
+          szpm=$(wget -qO- "$base_url/download/${szpm##*/}/$file_name")
+          szpm=$(jq -r ".change_log += $changeLog" <<<"$szpm")
+          szpm=$(jq -r --arg v "$version" '.version = $v' <<<"$szpm")
+          szpm=$(jq -r --arg t "$today" '.builddate = $t' <<<"$szpm")
+
+          for k in $(jq '.files | keys | .[]' <<<"$szpm"); do
+            loc=$(jq -r ".files[$k].location" <<<"$szpm")
+            c=$(base64 "${loc##*/}" -w 0)
+            szpm=$(jq -r --arg k "$k" --arg c "$c" '.files[$k|tonumber].content = $c' <<<"$szpm")
+          done
+
+          echo "$szpm"
+          echo "$szpm" | python -m json.tool >>/dev/null && exit 0 || echo "NOT valid JSON" && exit 1
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.create_szpm.outputs.file_name }}
+          asset_name: ${{ steps.create_szpm.outputs.file_name }}
+          asset_content_type: application/json
