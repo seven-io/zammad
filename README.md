@@ -1,18 +1,15 @@
-<p align='center'>
-    <img
-         width="400" 
-         height="79" 
-         src="https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png" alt="sms77io Logo"
-      />
-</p>
+![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "sms77")
 
-# sms77io Zammad Package
+# Zammad Package for the Sms77.io SMS Gateway
 
 ## Installation
 
-1. Go to <b>Manage->Packages</b> and press <b>Choose File</b>
-2. Choose <b>sms77.rb</b> and click <b>Install Package</b>
-3. Go to <b>Manage->SMS->SMS Notification</b> and choose <b>sms77</b>
+1. Download **sms77-sms.szpm** file from [Latest Releases](https://github.com/sms77io/zammad/releases/latest "Latest Releases")
+2. Open up your Zammad **Dashboard**
+2. Click on **Admin**, navigate to **Manage->System->Packages** and press **Choose File**
+3. Locate the downloaded **sms77-sms.szpm** and click **Install Package**
+4. Go to **Manage->Channels->SMS->SMS Notification** and choose **sms77**
+5. Type in your Sms77.io **credentials**, test and you are ready to go
 
 ### License
 
