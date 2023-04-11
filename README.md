@@ -1,6 +1,6 @@
-![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "sms77")
+![](https://www.seven.io/wp-content/uploads/Logo.svg "seven Logo")
 
-# Zammad Package for the Sms77.io SMS Gateway
+# Zammad Package for the seven.io SMS Gateway
 
 ## Installation
 
@@ -13,4 +13,4 @@
 
 ### License
 
-This respository is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This repository is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

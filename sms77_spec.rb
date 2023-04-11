@@ -35,7 +35,7 @@ RSpec.describe Channel::Driver::Sms::Sms77 do
   end
 
   def url_to_mock
-    'https://gateway.sms77.io/api/sms?' + URI.encode_www_form({
+    'https://gateway.seven.io/api/sms?' + URI.encode_www_form({
                                                                   p: api_key,
                                                                   text: text,
                                                                   to: to,
@@ -48,7 +48,7 @@ RSpec.describe Channel::Driver::Sms::Sms77 do
   end
 
   def to
-    '+491771783130'
+    '+491716992343'
   end
 
   def from

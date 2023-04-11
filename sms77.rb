@@ -1,4 +1,4 @@
-class Channel::Driver::Sms::Sms77
+class Channel::Driver::Sms::Sms77 < Channel::Driver::Sms::Base
   NAME = 'sms/sms77'.freeze
 
   def send(options, attr, _notification = false)
@@ -6,9 +6,9 @@ class Channel::Driver::Sms::Sms77
 
     return true if Setting.get('import_mode')
 
-    Rails.logger.info "Backend sending sms77 SMS to #{attr[:recipient]}"
+    Rails.logger.info "Backend sending seven SMS to #{attr[:recipient]}"
     begin
-      url = 'https://gateway.sms77.io/api/sms?' + URI.encode_www_form({
+      url = 'https://gateway.seven.io/api/sms?' + URI.encode_www_form({
                                                                           p: options[:api_key],
                                                                           text: attr[:message],
                                                                           to: attr[:recipient],
@@ -23,7 +23,7 @@ class Channel::Driver::Sms::Sms77
 
       true
     rescue => e
-      Rails.logger.debug "sms77 error: #{e.inspect}"
+      Rails.logger.debug "seven error: #{e.inspect}"
       raise e
     end
   end
