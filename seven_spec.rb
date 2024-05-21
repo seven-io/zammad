@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Channel::Driver::Sms::Sms77 do
+RSpec.describe Channel::Driver::Sms::Seven do
   it 'passes' do
     channel = create_channel
 
@@ -26,7 +26,7 @@ RSpec.describe Channel::Driver::Sms::Sms77 do
   def create_channel
     FactoryBot.create(:channel,
                       options: {
-                          adapter: 'sms/sms77',
+                          adapter: 'sms/seven',
                           from: from,
                           api_key: api_key
                       },

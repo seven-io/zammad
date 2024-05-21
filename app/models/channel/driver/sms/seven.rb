@@ -1,7 +1,7 @@
-class Channel::Driver::Sms::Sms77 < Channel::Driver::Sms::Base
-  NAME = 'sms/sms77'.freeze
+class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
+  NAME = 'sms/seven'.freeze
 
-  def send(options, attr, _notification = false)
+  def deliver(options, attr, _notification = false)
     Rails.logger.info "Sending SMS to recipient #{attr[:recipient]}"
 
     return true if Setting.get('import_mode')
@@ -30,8 +30,8 @@ class Channel::Driver::Sms::Sms77 < Channel::Driver::Sms::Base
 
   def self.definition
     {
-        name: 'sms77',
-        adapter: 'sms/sms77',
+        name: 'seven',
+        adapter: 'sms/seven',
         notification: [
             {name: 'options::api_key', display: 'API Key', tag: 'input', type: 'text', limit: 64, null: false, placeholder: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'},
             {name: 'options::from', display: 'From', tag: 'input', type: 'text', limit: 16, null: true, placeholder: '00491710000000'},
