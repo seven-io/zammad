@@ -1,0 +1,40 @@
+{
+  "name": "seven SMS",
+  "version": "2.0.0",
+  "vendor": "seven communications GmbH & Co. KG",
+  "license": "MIT",
+  "url": "https://www.seven.io/",
+  "buildhost": "localhost",
+  "builddate": "2024-21-05 00:00:00 UTC",
+  "change_log": [
+    {
+        "version": "2.0.0",
+        "date": "2024-21-05 00:00:00 UTC",
+        "log": "package renamed"
+    },
+    {
+      "version": "1.0.1",
+      "date": "2023-11-04 00:00:00 UTC",
+      "log": "add v5 compatibility"
+    },
+    {
+      "version": "1.0.0",
+      "date": "2020-18-03 00:00:00 UTC",
+      "log": "init"
+    }
+  ],
+  "description": [
+    {
+      "language": "en",
+      "text": "Add seven SMS Gateway"
+    }
+  ],
+  "files": [
+    {
+      "location": "app/models/channel/driver/sms/seven.rb",
+      "permission": 644,
+      "encode": "base64",
+      "content": "Y2xhc3MgQ2hhbm5lbDo6RHJpdmVyOjpTbXM6OlNldmVuIDwgQ2hhbm5lbDo6RHJpdmVyOjpTbXM6OkJhc2UNCiAgTkFNRSA9ICdzbXMvc2V2ZW4nLmZyZWV6ZQ0KDQogIGRlZiBkZWxpdmVyKG9wdGlvbnMsIGF0dHIsIF9ub3RpZmljYXRpb24gPSBmYWxzZSkNCiAgICBSYWlscy5sb2dnZXIuaW5mbyAiU2VuZGluZyBTTVMgdG8gcmVjaXBpZW50ICN7YXR0cls6cmVjaXBpZW50XX0iDQoNCiAgICByZXR1cm4gdHJ1ZSBpZiBTZXR0aW5nLmdldCgnaW1wb3J0X21vZGUnKQ0KDQogICAgUmFpbHMubG9nZ2VyLmluZm8gIkJhY2tlbmQgc2VuZGluZyBzZXZlbiBTTVMgdG8gI3thdHRyWzpyZWNpcGllbnRdfSINCiAgICBiZWdpbg0KICAgICAgdXJsID0gJ2h0dHBzOi8vZ2F0ZXdheS5zZXZlbi5pby9hcGkvc21zPycgKyBVUkkuZW5jb2RlX3d3d19mb3JtKHsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcDogb3B0aW9uc1s6YXBpX2tleV0sDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRleHQ6IGF0dHJbOm1lc3NhZ2VdLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0bzogYXR0cls6cmVjaXBpZW50XSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnJvbTogb3B0aW9uc1s6ZnJvbV0sDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlbmRXaXRoOiAnemFtbWFkJywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9KQ0KDQogICAgICBpZiBTZXR0aW5nLmdldCgnZGV2ZWxvcGVyX21vZGUnKSAhPSB0cnVlDQogICAgICAgIHJlc3BvbnNlID0gRmFyYWRheS5nZXQodXJsKS5ib2R5DQogICAgICAgIHJhaXNlIHJlc3BvbnNlIGlmICcxMDAnICE9IHJlc3BvbnNlDQogICAgICBlbmQNCg0KICAgICAgdHJ1ZQ0KICAgIHJlc2N1ZSA9PiBlDQogICAgICBSYWlscy5sb2dnZXIuZGVidWcgInNldmVuIGVycm9yOiAje2UuaW5zcGVjdH0iDQogICAgICByYWlzZSBlDQogICAgZW5kDQogIGVuZA0KDQogIGRlZiBzZWxmLmRlZmluaXRpb24NCiAgICB7DQogICAgICAgIG5hbWU6ICdzZXZlbicsDQogICAgICAgIGFkYXB0ZXI6ICdzbXMvc2V2ZW4nLA0KICAgICAgICBub3RpZmljYXRpb246IFsNCiAgICAgICAgICAgIHtuYW1lOiAnb3B0aW9uczo6YXBpX2tleScsIGRpc3BsYXk6ICdBUEkgS2V5JywgdGFnOiAnaW5wdXQnLCB0eXBlOiAndGV4dCcsIGxpbWl0OiA2NCwgbnVsbDogZmFsc2UsIHBsYWNlaG9sZGVyOiAnWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWCd9LA0KICAgICAgICAgICAge25hbWU6ICdvcHRpb25zOjpmcm9tJywgZGlzcGxheTogJ0Zyb20nLCB0YWc6ICdpbnB1dCcsIHR5cGU6ICd0ZXh0JywgbGltaXQ6IDE2LCBudWxsOiB0cnVlLCBwbGFjZWhvbGRlcjogJzAwNDkxNzEwMDAwMDAwJ30sDQogICAgICAgIF0NCiAgICB9DQogIGVuZA0KZW5k"
+    }
+  ]
+}
