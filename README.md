@@ -19,6 +19,8 @@ Tested with Zammad v6.x.
 
 Please refer to the official [documentation](https://admin-docs.zammad.org/en/6.1/channels/sms.html) over at Zammad.
 
+### Inbound messages
+When [setting up a webhook](https://help.seven.io/en/articles/9582203-how-do-i-receive-sms) at seven, make sure that it is of type `JSON`.
 
 
 ## Support
