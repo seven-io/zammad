@@ -2,6 +2,7 @@
 
 
 # Zammad Package for seven.io
+This package adds seven as a SMS provider for two-way messaging.
 
 Tested with Zammad v6.x.
 
@@ -14,7 +15,13 @@ Tested with Zammad v6.x.
 6. Go to **Manage->Channels->SMS->SMS Notification** and choose **seven**
 7. Type in your [API Key](https://help.seven.io/en/api-key-access), test and you are ready to go
 
-### Support
+## Usage
+
+Please refer to the official [documentation](https://admin-docs.zammad.org/en/6.1/channels/sms.html) over at Zammad.
+
+
+
+## Support
 
 Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/).
 
