@@ -22,6 +22,7 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
 
       if Setting.get('developer_mode') != false
         response = Faraday.get(url).body
+        Rails.logger.debug "seven response: #{response}"
         raise response if '100' != response
       end
 
@@ -42,8 +43,10 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
       return [:json, {}]
     end
 
+    msg_id = attr['data']['id']
     # prevent already created articles
-    if Ticket::Article.exists?(message_id: attr['data']['id'])
+    if Ticket::Article.exists?(message_id: msg_id)
+      Rails.logger.info "Skipping inbound SMS because a ticket with this ID already exists: #{msg_id}"
       return [:json, {}]
     end
 
@@ -59,16 +62,16 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
   def create_ticket(attr, channel, user)
     title = cut_title(attr['data']['text'])
     ticket = Ticket.new(
-      group_id:    channel.group_id,
-      title:       title,
-      state_id:    Ticket::State.find_by(default_create: true).id,
+      group_id: channel.group_id,
+      title: title,
+      state_id: Ticket::State.find_by(default_create: true).id,
       priority_id: Ticket::Priority.find_by(default_create: true).id,
       customer_id: user.id,
       preferences: {
         channel_id: channel.id,
-        sms:        {
+        sms: {
           originator: attr['data']['sender'],
-          recipient:  attr['data']['system'],
+          recipient: attr['data']['system'],
         }
       }
     )
@@ -78,19 +81,19 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
 
   def create_article(attr, channel, ticket)
     Ticket::Article.create!(
-      ticket_id:    ticket.id,
-      type:         article_type_sms,
-      sender:       Ticket::Article::Sender.find_by(name: 'Customer'),
-      body:         attr['data']['text'],
-      from:         attr['data']['sender'],
-      to:           attr['data']['system'],
-      message_id:   attr['data']['id'],
+      ticket_id: ticket.id,
+      type: article_type_sms,
+      sender: Ticket::Article::Sender.find_by(name: 'Customer'),
+      body: attr['data']['text'],
+      from: attr['data']['sender'],
+      to: attr['data']['system'],
+      message_id: attr['data']['id'],
       content_type: 'text/plain',
-      preferences:  {
+      preferences: {
         channel_id: channel.id,
-        sms:        {
-          From:       attr['data']['sender'],
-          To:         attr['data']['system'],
+        sms: {
+          From: attr['data']['sender'],
+          To: attr['data']['system'],
         },
       }
     )
@@ -100,15 +103,15 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
     {
       name: 'seven',
       adapter: 'sms/seven',
-      account:      [
+      account: [
         { name: 'options::webhook_token', display: __('Webhook Token'), tag: 'input', type: 'text', limit: 200, null: false, default: Digest::MD5.hexdigest(SecureRandom.uuid), disabled: true, readonly: true },
-        {name: 'options::api_key', display: 'API Key', tag: 'input', type: 'text', limit: 64, null: false, placeholder: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'},
-        {name: 'options::from', display: 'From', tag: 'input', type: 'text', limit: 16, null: true, placeholder: '00491710000000'},
+        { name: 'options::api_key', display: 'API Key', tag: 'input', type: 'text', limit: 64, null: false, placeholder: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
+        { name: 'options::from', display: 'From', tag: 'input', type: 'text', limit: 16, null: true, placeholder: '00491710000000' },
         { name: 'group_id', display: __('Destination Group'), tag: 'tree_select', null: false, relation: 'Group', nulloption: true, filter: { active: true } },
       ],
       notification: [
-        {name: 'options::api_key', display: 'API Key', tag: 'input', type: 'text', limit: 64, null: false, placeholder: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'},
-        {name: 'options::from', display: 'From', tag: 'input', type: 'text', limit: 16, null: true, placeholder: '00491710000000'},
+        { name: 'options::api_key', display: 'API Key', tag: 'input', type: 'text', limit: 64, null: false, placeholder: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
+        { name: 'options::from', display: 'From', tag: 'input', type: 'text', limit: 16, null: true, placeholder: '00491710000000' },
       ]
     }
   end
