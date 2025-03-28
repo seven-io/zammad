@@ -8,23 +8,35 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
   def deliver(options, attr, _notification = false)
     Rails.logger.info "Sending SMS to recipient #{attr[:recipient]}"
 
-    return true if Setting.get('import_mode')
+    if Setting.get('import_mode')
+      Rails.logger.info "Aborting seven SMS to #{attr[:recipient]} because import mode is enabled"
+      return true
+    end
+
+    if Setting.get('developer_mode')
+      Rails.logger.info "Aborting seven SMS to #{attr[:recipient]} because developer mode is enabled"
+      return true
+    end
 
     Rails.logger.info "Backend sending seven SMS to #{attr[:recipient]}"
-    begin
-      url = 'https://gateway.seven.io/api/sms?' + URI.encode_www_form({
-                                                                        p: options[:api_key],
-                                                                        text: attr[:message],
-                                                                        to: attr[:recipient],
-                                                                        from: options[:from],
-                                                                        sendWith: 'zammad',
-                                                                      })
 
-      if Setting.get('developer_mode') != false
-        response = Faraday.get(url).body
-        Rails.logger.debug "seven response: #{response}"
-        raise response if '100' != response
+    begin
+      conn = Faraday.new do |f|
+        f.request :json
+        f.response :json
       end
+      data = conn.post do |req|
+        req.url 'https://gateway.seven.io/api/sms'
+        req.headers['Accept'] = 'application/json'
+        req.headers['Content-Type'] = 'application/json'
+        req.headers['SentWith'] = 'zammad'
+        req.headers['X-Api-Key'] = options[:api_key]
+        req.body = "{ \"text\": \"#{attr[:message]}\", \"to\": \"#{attr[:recipient]}\", \"from\": \"#{attr[:from]}\" }"
+      end
+
+      response = data.body['success']
+      Rails.logger.debug "seven response: #{response}"
+      raise response if '100' != response
 
       true
     rescue => e
