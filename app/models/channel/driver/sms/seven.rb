@@ -31,7 +31,7 @@ class Channel::Driver::Sms::Seven < Channel::Driver::Sms::Base
         req.headers['Content-Type'] = 'application/json'
         req.headers['SentWith'] = 'zammad'
         req.headers['X-Api-Key'] = options[:api_key]
-        req.body = "{ \"text\": \"#{attr[:message]}\", \"to\": \"#{attr[:recipient]}\", \"from\": \"#{attr[:from]}\" }"
+        req.body = "{ \"text\": \"#{attr[:message]}\", \"to\": \"#{attr[:recipient]}\", \"from\": \"#{options[:from]}\" }"
       end
 
       response = data.body['success']
