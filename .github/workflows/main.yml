@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Create SZPM file
         id: create_szpm
         env:
           REF: ${{ github.ref }}
-          COMMITS: ${{ github.event.commits }}
+          COMMITS: ${{ toJson(github.event.commits) }}
           REPOSITORY: ${{ github.repository }}
         run: |
           today="$(date +'%Y-%d-%m' -u) 00:00:00 UTC"
-          base_url=https://github.com/$REPOSITORY/releases
-          file_name=sms77-sms.szpm && echo "::set-output name=file_name::${file_name}"
+          base_url="https://github.com/$REPOSITORY/releases"
+          file_name=seven-sms.szpm && echo "file_name=${file_name}" >> "$GITHUB_OUTPUT"
           version=${REF##*/} && [[ $version != [0-9]* ]] && version="${version:1}"
 
           log=''
