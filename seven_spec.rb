@@ -1,61 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe Channel::Driver::Sms::Seven do
-  it 'passes' do
-    channel = create_channel
+  let(:api_key) { 'HeJyJSAvBWDn5RwNfhQGKZI6poCLk7pUXjpxctipYHWGsjoHtWNDI3d4De8gkoVe' }
+  let(:from) { '+491000000000' }
+  let(:to) { '+491716992343' }
+  let(:text) { 'Test' }
+  let(:api_url) { 'https://gateway.seven.io/api/sms' }
 
-    stub_request(:get, url_to_mock)
-        .to_return(body: '100')
-
-    api = channel.driver_instance.new
-    expect(api.send(channel.options, {to: to, text: text})).to be true
-  end
-
-  it 'fails' do
-    channel = create_channel
-
-    stub_request(:get, url_to_mock)
-        .to_return(body: '305')
-
-    api = channel.driver_instance.new
-    expect { api.send(channel.options, {to: to, text: ''}) }.to raise_exception(RuntimeError)
-  end
-
-  private
-
-  def create_channel
+  let(:channel) do
     FactoryBot.create(:channel,
                       options: {
-                          adapter: 'sms/seven',
-                          from: from,
-                          api_key: api_key
+                        adapter: 'sms/seven',
+                        from: from,
+                        api_key: api_key
                       },
                       created_by_id: 1,
                       updated_by_id: 1)
   end
 
-  def url_to_mock
-    'https://gateway.seven.io/api/sms?' + URI.encode_www_form({
-                                                                  p: api_key,
-                                                                  text: text,
-                                                                  to: to,
-                                                                  from: from
-                                                              })
+  it 'delivers successfully' do
+    stub_request(:post, api_url)
+      .with(
+        body: { text: text, to: to, from: from }.to_json,
+        headers: {
+          'Content-Type' => 'application/json',
+          'X-Api-Key' => api_key,
+          'SentWith' => 'zammad'
+        }
+      )
+      .to_return(
+        headers: { 'Content-Type' => 'application/json' },
+        body: { success: '100' }.to_json
+      )
+
+    driver = channel.driver_instance.new
+    expect(driver.deliver(channel.options, { recipient: to, message: text })).to be true
   end
 
-  def text
-    'Test'
-  end
+  it 'raises on failure' do
+    stub_request(:post, api_url)
+      .to_return(
+        headers: { 'Content-Type' => 'application/json' },
+        body: { success: '305' }.to_json
+      )
 
-  def to
-    '+491716992343'
-  end
-
-  def from
-    '+491000000000'
-  end
-
-  def api_key
-    'HeJyJSAvBWDn5RwNfhQGKZI6poCLk7pUXjpxctipYHWGsjoHtWNDI3d4De8gkoVe'
+    driver = channel.driver_instance.new
+    expect { driver.deliver(channel.options, { recipient: to, message: text }) }.to raise_exception(RuntimeError)
   end
 end
