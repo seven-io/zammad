@@ -39,7 +39,7 @@ jobs:
 
           for k in $(jq '.files | keys | .[]' <<<"$szpm"); do
             loc=$(jq -r ".files[$k].location" <<<"$szpm")
-            c=$(base64 "${loc##*/}" -w 0)
+            c=$(base64 -w 0 "$loc")
             szpm=$(jq -r --arg k "$k" --arg c "$c" '.files[$k|tonumber].content = $c' <<<"$szpm")
           done
 
