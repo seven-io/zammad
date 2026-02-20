@@ -25,30 +25,31 @@
 ## How it works
 
 ```
-                        ┌─────────────┐
-                        │   Zammad     │
-                        │   Ticket     │
-                        └──────┬──────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-        ┌───────────┐  ┌────────────┐  ┌────────────────┐
-        │  Outbound  │  │  Inbound   │  │  Notification  │
-        │  (Reply)   │  │  (Webhook) │  │  (Trigger)     │
-        └─────┬─────┘  └─────┬──────┘  └───────┬────────┘
-              │               │                 │
-              ▼               ▼                 ▼
-        ┌─────────────────────────────────────────────┐
-        │            seven SMS Gateway API            │
-        │         gateway.seven.io/api/sms            │
-        └──────────────────┬──────────────────────────┘
-                           │
-                           ▼
-                     ┌───────────┐
-                     │  Customer  │
-                     │   Phone    │
-                     └───────────┘
+                    ┌────────────────┐
+                    │  Zammad Ticket │
+                    └───────┬────────┘
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+            ▼               ▼               ▼
+    ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+    │   Outbound   │ │   Inbound    │ │ Notification │
+    │   (Reply)    │ │  (Webhook)   │ │  (Trigger)   │
+    └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+           │                │                │
+           └────────────────┼────────────────┘
+                            │
+                            ▼
+              ┌───────────────────────┐
+              │  seven SMS Gateway    │
+              │  gateway.seven.io     │
+              └───────────┬───────────┘
+                          │
+                          ▼
+                   ┌──────────────┐
+                   │   Customer   │
+                   │    Phone     │
+                   └──────────────┘
 ```
 
 ## Prerequisites
@@ -66,14 +67,14 @@ In Zammad, navigate to **Admin > System > Packages**, click **Choose File** and 
 
 <details>
 <summary>Screenshot: Package Management</summary>
-
-![Package Management](screenshots/1_install_pkg_mgmt.png)
+<br>
+<img src="screenshots/1_install_pkg_mgmt.png" alt="Package Management" width="700" />
 </details>
 
 <details>
 <summary>Screenshot: Package installed</summary>
-
-![Package installed](screenshots/2_post_install.png)
+<br>
+<img src="screenshots/2_post_install.png" alt="Package installed" width="700" />
 </details>
 
 ### Step 2: Finalize installation
@@ -94,14 +95,14 @@ Navigate to **Channels > SMS** and click **New** under *SMS Notification*. Selec
 
 <details>
 <summary>Screenshot: SMS Channel overview</summary>
-
-![SMS Channels](screenshots/3_channels_sms.png)
+<br>
+<img src="screenshots/3_channels_sms.png" alt="SMS Channels" width="700" />
 </details>
 
 <details>
 <summary>Screenshot: Configure SMS Notification</summary>
-
-![SMS Notification](screenshots/4_sms_notification.png)
+<br>
+<img src="screenshots/4_sms_notification.png" alt="SMS Notification" width="700" />
 </details>
 
 ### Step 4: Test
@@ -110,20 +111,20 @@ Click **Test** to verify the connection. You should see a "SMS successfully sent
 
 <details>
 <summary>Screenshot: Test SMS provider</summary>
-
-![Test SMS](screenshots/5_test_sms_provider.png)
+<br>
+<img src="screenshots/5_test_sms_provider.png" alt="Test SMS" width="700" />
 </details>
 
 <details>
 <summary>Screenshot: Success</summary>
-
-![SMS sent](screenshots/6_post_test_sms_provider.png)
+<br>
+<img src="screenshots/6_post_test_sms_provider.png" alt="SMS sent" width="700" />
 </details>
 
 <details>
 <summary>Screenshot: Final result</summary>
-
-![Configured](screenshots/7_sms_channels.png)
+<br>
+<img src="screenshots/7_sms_channels.png" alt="Configured" width="700" />
 </details>
 
 ## Inbound SMS (Webhook)
