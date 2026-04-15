@@ -1,0 +1,14 @@
+# managed-by: seven-io/isms-tools/scripts/dependabot-rollout.sh
+# Dependabot config: scheduled + grouped security updates. Do not edit by hand;
+# changes should be made in the script and re-rolled out with FORCE_UPDATE=true.
+# See: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    groups:
+      actions-all:
+        patterns: ["*"]
